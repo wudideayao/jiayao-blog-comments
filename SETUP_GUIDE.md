@@ -2,8 +2,8 @@
 
 ## 📋 目录
 
-1. [启用 Giscus 评论系统](#1-启用-giscus-评论系统)
-2. [Vercel 自动部署](#2-vercel-自动部署)
+1. [阿里云服务器部署](#1-阿里云服务器部署)
+2. [启用 Giscus 评论系统](#2-启用-giscus-评论系统)
 3. [写新文章](#3-写新文章)
 4. [日常维护](#4-日常维护)
 
@@ -71,143 +71,170 @@ git push
 
 ---
 
-## 2. Vercel 自动部署
+## 2. 阿里云服务器部署
 
-### 方式 A：通过 GitHub 自动部署（推荐）
+### 准备工作
 
-#### 前提条件
+- 一台阿里云服务器（已开通）
+- SSH 远程连接工具（Windows 用 PowerShell 或 PuTTY）
+- 一个域名（可选，也可以用 IP 访问）
 
-- 代码已推送到 GitHub
-- 已有 Vercel 账号（用 GitHub 登录）
+### 方式 A：一键部署脚本（推荐）
 
-#### 步骤一：在 Vercel 导入项目
+在本地 PowerShell 执行以下命令，自动完成部署：
 
-1. 打开 https://vercel.com
-2. 点击 **Add New** → **Project**
-3. 选择 **wudideayao/jiayao-blog-comments**
-4. Vercel 会自动识别为静态站点
-5. 点击 **Deploy** → 等待部署完成 ✅
-6. 部署成功后记下你的域名，如 `jiayao-blog-comments.vercel.app`
+```powershell
+# 1. 将博客文件打包上传到服务器
+# 先压缩本地文件
+Compress-Archive -Path "E:\博客\*" -DestinationPath "$env:TEMP\blog.zip" -Force
 
-#### 步骤二：配置自定义域名（可选）
+# 2. 上传到阿里云服务器（替换 <服务器IP> 为你的服务器公网 IP）
+scp "$env:TEMP\blog.zip" root@<服务器IP>:/root/
+scp "E:\博客\scripts\deploy.sh" root@<服务器IP>:/root/
 
-1. 在 Vercel 项目页面点击 **Settings** → **Domains**
-2. 输入你的域名（如果有的话）
-3. 按照提示配置 DNS
-
-#### 步骤三：配置 GitHub Actions（可选）
-
-如果想通过 GitHub Actions 自动部署（每次 push 自动触发）：
-
-1. 打开 https://vercel.com/account/tokens
-2. 点击 **Create Token**，输入名称 `blog-deploy`，生成一个 Token
-3. **复制并保存这个 Token**（关闭页面后无法再查看）
-
-4. 打开 Vercel 项目页面 → **Settings** → 找到 **Project ID** 和 **Org ID**
-   - Project ID 在 Settings 页面底部
-   - Org ID 在 URL 中：`https://vercel.com/团队名/项目名/settings`
-
-5. 打开 GitHub 仓库：https://github.com/wudideayao/jiayao-blog-comments
-6. 点击 **Settings** → **Secrets and variables** → **Actions**
-7. 点击 **New repository secret**，添加以下 3 个密钥：
-
-| 名称 | 值 |
-|------|-----|
-| `VERCEL_TOKEN` | 第 3 步复制的 Token |
-| `VERCEL_ORG_ID` | 第 4 步找到的 Org ID |
-| `VERCEL_PROJECT_ID` | 第 4 步找到的 Project ID |
-
-8. 之后每次 `git push` 都会自动部署到 Vercel
-
-### 方式 B：直接用 Vercel CLI 部署
-
-```bash
-# 安装 Vercel CLI
-npm i -g vercel
-
-# 登录
-vercel login
-
-# 部署
-cd e:\博客
-vercel --prod
+# 3. SSH 登录服务器并执行部署
+ssh root@<服务器IP> "bash /root/deploy.sh"
 ```
 
----
+首次执行前，需要在服务器上创建部署脚本。
 
-## 3. 写新文章
+### 方式 B：手动配置 Nginx（详细步骤）
 
-1. 打开 `blog/data/articles.json`
+#### 步骤一：登录服务器
 
-2. 在数组末尾添加一个新对象，格式如下：
+```bash
+ssh root@<你的服务器IP>
+```
 
-```json
-{
-  "id": "你的文章id",
-  "title": "文章标题",
-  "date": "2026-07-03",
-  "category": "分类名称",
-  "tags": ["标签1", "标签2"],
-  "summary": "文章简介，会显示在列表中",
-  "content": "## 一级标题\n\n正文内容...\n\n### 二级标题\n\n更多内容..."
+#### 步骤二：安装 Nginx
+
+**Ubuntu / Debian：**
+```bash
+apt update
+apt install nginx -y
+```
+
+**CentOS / Alibaba Cloud Linux：**
+```bash
+yum install nginx -y
+# 或
+dnf install nginx -y
+```
+
+#### 步骤三：配置 Nginx
+
+创建配置文件 `/etc/nginx/conf.d/blog.conf`：
+
+```nginx
+server {
+    listen 80;
+    server_name 你的域名或IP;
+
+    root /var/www/blog;
+    index index.html;
+
+    # 主站
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # 博客页面
+    location /blog/ {
+        try_files $uri $uri/ /blog/index.html;
+    }
+
+    # 静态资源缓存
+    location ~* \.(css|js|svg|png|jpg|jpeg|ico)$ {
+        expires 7d;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Gzip 压缩
+    gzip on;
+    gzip_types text/plain text/css application/javascript image/svg+xml;
+    gzip_min_length 1000;
 }
 ```
 
-**字段说明：**
-- `id` — 唯一标识，用英文小写+连字符，会出现在 URL 中
-- `category` — 分类，已有的分类：随笔、跑步、音乐、游戏、思考
-- `tags` — 标签数组，用于搜索
-- `content` — 支持 Markdown 语法：
-  - `#` / `##` / `###` — 标题
-  - `> ` — 引用
-  - `**加粗**` — 加粗
-  - `- 列表项` — 无序列表
-  - `1. 列表项` — 有序列表
-  - `` `代码` `` — 行内代码
-  - `---` — 分割线
-  - 空行 = 段落分隔
-
-3. 更新 RSS 订阅源 `blog/rss.xml`（可选）
-
-4. 提交并推送：
+#### 步骤四：部署博客文件
 
 ```bash
-git add .
-git commit -m "feat: 添加新文章 - 文章标题"
-git push
+# 创建网站目录
+mkdir -p /var/www/blog
+
+# 从 GitHub 拉取代码（首次）
+cd /var/www/blog
+git clone https://github.com/wudideayao/jiayao-blog-comments.git .
+# 或从本地上传文件后解压
+cd /var/www/blog
+unzip /root/blog.zip -d /var/www/blog
 ```
 
----
-
-## 4. 日常维护
-
-### 修改个人信息
-
-- 主页文字：编辑 `index.html`
-- 样式：编辑 `css/style.css`
-- 打字机文案：编辑 `js/main.js` 中 `new TypeWriter` 的数组
-
-### 修改联系邮箱
-
-- Formspree：`index.html` 中 `<form action="...">`
-- 显示的邮箱：同上页面中的 `.contact-value` 元素
-
-### 更新网站图标
-
-1. 替换 `images/icon-192.svg` 为你自己的图标
-2. 更新 `manifest.json` 中的图标路径（如需）
-
-### 常用 Git 命令
+#### 步骤五：启动 Nginx
 
 ```bash
-# 查看状态
-git status
+# 测试配置是否正确
+nginx -t
 
-# 提交更改
-git add .
-git commit -m "feat: 修改说明"
-git push
-
-# 从远程拉取最新
-git pull
+# 启动/重启 Nginx
+systemctl restart nginx
+systemctl enable nginx
 ```
+
+#### 步骤六：配置域名（可选）
+
+1. 在阿里云 DNS 控制台添加 **A 记录**，指向服务器 IP
+2. 申请 SSL 证书（推荐使用 Let's Encrypt）：
+
+```bash
+# 安装 Certbot
+apt install certbot python3-certbot-nginx -y    # Ubuntu
+yum install certbot python3-certbot-nginx -y    # CentOS
+
+# 申请证书
+certbot --nginx -d 你的域名.com
+
+# 自动续期
+certbot renew --dry-run
+```
+
+#### 步骤七：配置防火墙
+
+```bash
+# 开放 80 和 443 端口
+firewall-cmd --permanent --add-service=http
+firewall-cmd --permanent --add-service=https
+firewall-cmd --reload
+
+# 如果使用 iptables
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+```
+
+> **注意**：还需要在阿里云控制台的**安全组**中开放 80（HTTP）和 443（HTTPS）端口。
+
+### 方式 C：自动化部署（GitHub + 服务器 Webhook）
+
+每次 `git push` 后自动部署到服务器：
+
+1. 在服务器上创建部署脚本 `/root/deploy-blog.sh`：
+
+```bash
+#!/bin/bash
+cd /var/www/blog
+git pull origin main
+systemctl reload nginx
+```
+
+2. 设置定时同步（简单方式）：
+
+```bash
+chmod +x /root/deploy-blog.sh
+echo "*/5 * * * * root /root/deploy-blog.sh" >> /etc/crontab
+```
+
+3. 或配置 GitHub Webhook（高级方式），在服务器上监听 push 事件自动部署。
+`````
+<userPrompt>
+Provide the fully rewritten file, incorporating the suggested code change. You must produce the complete file.
+</userPrompt>
