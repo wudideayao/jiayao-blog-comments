@@ -210,9 +210,9 @@
             const script = document.createElement('script');
             script.src = 'https://giscus.app/client.js';
             script.setAttribute('data-repo', 'wudideayao/jiayao-blog-comments');
-            script.setAttribute('data-repo-id', 'R_kgDONn-NOA');
+            script.setAttribute('data-repo-id', 'R_kgDOS6bpuA');
             script.setAttribute('data-category', 'Announcements');
-            script.setAttribute('data-category-id', '请先在仓库启用 Discussions，然后访问 https://giscus.app 获取 category-id');
+            script.setAttribute('data-category-id', 'DIC_kwDOS6bpuM4C_I5q');
             script.setAttribute('data-mapping', 'specific');
             script.setAttribute('data-term', article.id);
             script.setAttribute('data-strict', '0');
