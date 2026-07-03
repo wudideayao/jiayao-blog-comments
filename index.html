@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王佳垚 — 个人空间</title>
+    <meta name="description" content="王佳垚的个人博客，记录生活、思考与热爱。来自河北定州，热爱音乐、跑步、游戏与一切美好的事物。">
+    <meta name="keywords" content="王佳垚,个人博客,生活,思考,音乐,跑步,游戏,定州">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="王佳垚 — 个人空间">
+    <meta property="og:description" content="记录生活、思考与热爱。来自河北定州，热爱音乐、跑步、游戏与一切美好的事物。">
+    <meta property="og:url" content="https://wangjiayao.vercel.app">
+    <meta property="og:locale" content="zh_CN">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="王佳垚 — 个人空间">
+    <meta name="twitter:description" content="记录生活、思考与热爱。来自河北定州，热爱音乐、跑步、游戏与一切美好的事物。">
+
+    <!-- JSON-LD 结构化数据 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "王佳垚",
+        "givenName": "佳垚",
+        "familyName": "王",
+        "description": "来自河北定州，热爱音乐、跑步、游戏与一切美好的事物。",
+        "url": "https://wangjiayao.vercel.app",
+        "email": "wudideayao@gmail.com",
+        "knowsAbout": ["音乐", "跑步", "游戏", "设计"],
+        "homeLocation": {
+            "@type": "Place",
+            "name": "河北定州"
+        }
+    }
+    </script>
+
+    <!-- Google Fonts (优化加载) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">W.</a>
+            <ul class="nav-menu">
+                <li><a href="/blog/" class="nav-link">文章</a></li>
+                <li><a href="#about" class="nav-link">关于</a></li>
+                <li><a href="#interests" class="nav-link">兴趣</a></li>
+                <li><a href="#contact" class="nav-link">联系</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+                <i class="fas fa-moon"></i>
+                <i class="fas fa-sun"></i>
+            </button>
+            <button class="nav-toggle" id="navToggle" aria-label="菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-decoration">
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
+            <div class="hero-orb hero-orb-3"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge animate-in">
+                <span class="badge-dot"></span>
+                <span>来自河北定州</span>
+            </div>
+            <h1 class="hero-title animate-in">
+                <span class="title-line">你好，我是</span>
+                <span class="title-name">王佳垚</span>
+            </h1>
+            <div class="hero-subtitle animate-in">
+                <span class="typing-text" id="typingText"></span>
+                <span class="typing-cursor">|</span>
+            </div>
+            <div class="hero-cta animate-in">
+                <a href="#about" class="btn-primary">了解更多</a>
+                <a href="#contact" class="btn-ghost">联系我</a>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator">
+            <div class="scroll-line"></div>
+            <span>向下滚动</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag animate-on-scroll">01 / 关于我</span>
+                <h2 class="section-title animate-on-scroll">热爱生活的<br><span class="gradient-text">探索者</span></h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-text animate-on-scroll">
+                    <p class="about-description">
+                        我是王佳垚，一个来自河北定州的男生。我热爱这个世界上一切美好的事物——
+                        音乐让我沉浸，跑步让我自由，游戏让我探索，而美，无处不在。
+                    </p>
+                    <p class="about-description">
+                        我相信生活本身就是一场值得用心体验的旅程。在这里，我记录自己的思考与感悟，
+                        也希望能与志同道合的你产生共鸣。
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-icon"><i class="fas fa-map-marker-alt"></i></span>
+                            <div class="stat-info">
+                                <span class="stat-label">位置</span>
+                                <span class="stat-value">河北定州</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon"><i class="fas fa-heart"></i></span>
+                            <div class="stat-info">
+                                <span class="stat-label">状态</span>
+                                <span class="stat-value">热爱生活中</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual animate-on-scroll">
+                    <div class="visual-card">
+                        <div class="visual-gradient"></div>
+                        <div class="visual-content">
+                            <span class="visual-quote">"生活不止眼前的苟且，<br>还有诗和远方。"</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interests Section -->
+    <section class="interests" id="interests">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag animate-on-scroll">02 / 兴趣爱好</span>
+                <h2 class="section-title animate-on-scroll">我所<span class="gradient-text">热爱的</span></h2>
+            </div>
+            <div class="interests-grid">
+                <div class="interest-card animate-on-scroll music-trigger" data-delay="0">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <h3 class="card-title">听音乐</h3>
+                        <p class="card-desc">音乐是灵魂的语言，每一个音符都承载着情感与故事。沉浸在旋律中，感受世界的美好。</p>
+                    </div>
+                </div>
+                <div class="interest-card animate-on-scroll run-trigger" data-delay="100">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-running"></i>
+                        </div>
+                        <h3 class="card-title">跑步</h3>
+                        <p class="card-desc">奔跑让身心自由，每一步都是与自己的对话。在风中感受速度，在汗水中寻找力量。</p>
+                    </div>
+                </div>
+                <div class="interest-card animate-on-scroll game-trigger" data-delay="200">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3 class="card-title">游戏</h3>
+                        <p class="card-desc">游戏是另一个平行世界的入口，在虚拟的宇宙中探索无限可能，体验不同的人生。</p>
+                    </div>
+                </div>
+                <div class="interest-card animate-on-scroll beauty-trigger" data-delay="300">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3 class="card-title">欣赏美</h3>
+                        <p class="card-desc">美存在于生活的每个角落——日落的余晖、精致的设计、一个善意的微笑，都值得驻足欣赏。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag animate-on-scroll">03 / 联系我</span>
+                <h2 class="section-title animate-on-scroll">保持<span class="gradient-text">联系</span></h2>
+                <p class="section-subtitle animate-on-scroll">欢迎大家留言，期待与你的交流</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info animate-on-scroll">
+                    <div class="contact-card">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-detail">
+                                <span class="contact-label">邮箱</span>
+                                <a href="mailto:wudideayao@gmail.com" class="contact-value">wudideayao@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-location-dot"></i>
+                            </div>
+                            <div class="contact-detail">
+                                <span class="contact-label">位置</span>
+                                <span class="contact-value">河北定州</span>
+                            </div>
+                        </div>
+                        <div class="contact-social">
+                            <a href="mailto:wudideayao@gmail.com" class="social-link" aria-label="Email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper animate-on-scroll">
+                    <form class="contact-form" id="contactForm" action="https://formspree.io/f/xrbbrbzy" method="POST">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="你的名字" required>
+                            <label for="name">名字</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="你的邮箱" required>
+                            <label for="email">邮箱</label>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="想说什么..." rows="4" required></textarea>
+                            <label for="message">留言</label>
+                        </div>
+                        <button type="submit" class="btn-submit">
+                            <span>发送消息</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="footer-logo">W.</span>
+                    <p class="footer-text">用心感受生活的每一刻</p>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 王佳垚. All rights reserved.</p>
+                    <p class="footer-made">Made with <i class="fas fa-heart"></i></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 摄影画廊模态框 -->
+    <div class="music-wall-overlay" id="beautyWallOverlay">
+        <div class="music-wall-container">
+            <button class="music-wall-close" id="beautyWallClose" aria-label="关闭">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="music-wall-header">
+                <h2 class="music-wall-title">世界之美</h2>
+                <p class="music-wall-subtitle">顶级风光摄影作品</p>
+            </div>
+            <div class="beauty-wall-content" id="beautyWallContent">
+                <div class="music-wall-loading">
+                    <div class="loading-spinner"></div>
+                    <span>加载摄影作品中...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 游戏壁纸墙模态框 -->
+    <div class="music-wall-overlay" id="gameWallOverlay">
+        <div class="music-wall-container">
+            <button class="music-wall-close" id="gameWallClose" aria-label="关闭">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="music-wall-header">
+                <h2 class="music-wall-title">我的游戏世界</h2>
+                <p class="music-wall-subtitle">最近在玩的游戏</p>
+            </div>
+            <div class="game-wall-content" id="gameWallContent">
+                <div class="music-wall-loading">
+                    <div class="loading-spinner"></div>
+                    <span>加载游戏壁纸中...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 跑步装备模态框 -->
+    <div class="music-wall-overlay" id="runGearOverlay">
+        <div class="music-wall-container">
+            <button class="music-wall-close" id="runGearClose" aria-label="关闭">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="music-wall-header">
+                <h2 class="music-wall-title">我的跑步装备</h2>
+                <p class="music-wall-subtitle">三块手表，三个伙伴</p>
+            </div>
+            <div class="run-gear-content" id="runGearContent">
+                <div class="music-wall-loading">
+                    <div class="loading-spinner"></div>
+                    <span>加载装备数据中...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 音乐相片墙模态框 -->
+    <div class="music-wall-overlay" id="musicWallOverlay">
+        <div class="music-wall-container">
+            <button class="music-wall-close" id="musicWallClose" aria-label="关闭">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="music-wall-header">
+                <h2 class="music-wall-title">我的音乐足迹</h2>
+                <p class="music-wall-subtitle">最近在听的歌</p>
+            </div>
+            <div class="music-wall-content" id="musicWallContent">
+                <div class="music-wall-loading">
+                    <div class="loading-spinner"></div>
+                    <span>加载音乐数据中...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 回到顶部按钮 -->
+    <button class="back-to-top" id="backToTop" aria-label="回到顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>

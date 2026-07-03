@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>王佳垚的博客</title>
+    <link>https://wangjiayao.vercel.app/blog</link>
+    <description>记录生活、思考与热爱</description>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 03 Jul 2026 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://wangjiayao.vercel.app/blog/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>二十多岁的一些思考</title>
+      <link>https://wangjiayao.vercel.app/blog/?article=thinking-about-life</link>
+      <guid>https://wangjiayao.vercel.app/blog/?article=thinking-about-life</guid>
+      <pubDate>Fri, 03 Jul 2026 00:00:00 GMT</pubDate>
+      <description>二十多岁，是一个尴尬又美好的年纪。分享一些我对生活、工作和未来的思考。</description>
+    </item>
+    <item>
+      <title>日常生活中的美</title>
+      <link>https://wangjiayao.vercel.app/blog/?article=beauty-in-daily</link>
+      <guid>https://wangjiayao.vercel.app/blog/?article=beauty-in-daily</guid>
+      <pubDate>Wed, 01 Jul 2026 00:00:00 GMT</pubDate>
+      <description>美不需要刻意寻找，它一直都在，只是我们太忙了，没注意到。</description>
+    </item>
+    <item>
+      <title>游戏里的另一个世界</title>
+      <link>https://wangjiayao.vercel.app/blog/?article=game-world</link>
+      <guid>https://wangjiayao.vercel.app/blog/?article=game-world</guid>
+      <pubDate>Sun, 28 Jun 2026 00:00:00 GMT</pubDate>
+      <description>游戏对我来说不仅仅是消遣，它是我探索世界的另一种方式。</description>
+    </item>
+    <item>
+      <title>音乐是我生活里的背景色</title>
+      <link>https://wangjiayao.vercel.app/blog/?article=music-in-my-life</link>
+      <guid>https://wangjiayao.vercel.app/blog/?article=music-in-my-life</guid>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>音乐对我来说不是消遣，而是像空气一样自然的存在。</description>
+    </item>
+    <item>
+      <title>跑步教会我的三件事</title>
+      <link>https://wangjiayao.vercel.app/blog/?article=running-and-life</link>
+      <guid>https://wangjiayao.vercel.app/blog/?article=running-and-life</guid>
+      <pubDate>Sat, 20 Jun 2026 00:00:00 GMT</pubDate>
+      <description>从最初跑一公里就气喘吁吁，到现在能轻松跑完十公里。跑步教会我的三件事。</description>
+    </item>
+    <item>
+      <title>你好，世界 — 我的第一篇博客</title>
+      <link>https://wangjiayao.vercel.app/blog/?article=hello-world</link>
+      <guid>https://wangjiayao.vercel.app/blog/?article=hello-world</guid>
+      <pubDate>Mon, 15 Jun 2026 00:00:00 GMT</pubDate>
+      <description>终于决定开始写博客了。记录下生活中的那些闪光时刻。</description>
+    </item>
+  </channel>
+</rss>
