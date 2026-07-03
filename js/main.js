@@ -604,19 +604,12 @@
             this.rendered = false;
 
             this.photos = [
-                // 本地服务器图片 - 国内访问无忧
-                { file: '1506905925346-21bda4d32df4.jpg', name: 'Dino Reichmuth', title: '雪山银河' },
-                { file: '1464822759023-fed622ff2c3b.jpg', name: 'Kyler Polen', title: '雪峰巍峨' },
-                { file: '1519681393784-d120267933ba.jpg', name: 'Silas Baisch', title: '星空雪山' },
-                { file: '1454496522488-7a8e488e8606.jpg', name: 'Annie Spratt', title: '山间晨曦' },
-                { file: '1447752875215-b2761acb3c5d.jpg', name: 'Luca Bravo', title: '林间小径' },
                 { file: '1433086966358-54859d0ed716.jpg', name: 'Adam Kool', title: '森林瀑布' },
+                { file: '1447752875215-b2761acb3c5d.jpg', name: 'Luca Bravo', title: '林间小径' },
                 { file: '1441974231531-c6227db76b6e.jpg', name: 'Marek Piwnicki', title: '森林深处' },
-                { file: '1507525428034-b723cf961d3e.jpg', name: 'Sean Oulashin', title: '海滨日落' },
+                { file: '1464822759023-fed622ff2c3b.jpg', name: 'Kyler Polen', title: '雪峰巍峨' },
                 { file: '1476514525535-07fb3b4ae5f1.jpg', name: 'Christian Joudrey', title: '湖光山色' },
-                { file: '1504384308090-c894fdcc538d.jpg', name: 'Ryan Schroeder', title: '黄昏城市' },
-                { file: '1504639725590-34d0984388bd.jpg', name: 'Parker Hilton', title: '星空' },
-                { file: '1497366216548-37526070297c.jpg', name: 'Jorgen Hendriksen', title: '晨雾森林' },
+                { file: '1519681393784-d120267933ba.jpg', name: 'Silas Baisch', title: '星空雪山' },
             ];
 
             this.bindEvents();

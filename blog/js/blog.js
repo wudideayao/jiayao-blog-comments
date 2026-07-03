@@ -175,18 +175,23 @@
                 <a href="/blog/" class="article-detail-back">
                     <i class="fas fa-arrow-left"></i> 返回文章列表
                 </a>
-                <div class="article-detail-header">
-                    <h1 class="article-detail-title">${article.title}</h1>
-                    <div class="article-detail-meta">
-                        <span>${article.date}</span>
-                        <span>·</span>
-                        <span>${article.category}</span>
-                        <span>·</span>
-                        <span>${article.tags.map(t => `#${t}`).join(' ')}</span>
+                <div class="article-detail-inner">
+                    <div class="article-detail-header">
+                        <h1 class="article-detail-title">${article.title}</h1>
+                        <div class="article-detail-meta">
+                            <span>${article.date}</span>
+                            <span>·</span>
+                            <span>${article.category}</span>
+                            <span>·</span>
+                            <span>${article.tags.map(t => `#${t}`).join(' ')}</span>
+                        </div>
                     </div>
-                </div>
-                <div class="article-detail-body">
-                    ${this.renderMarkdown(article.content)}
+                    <div class="article-detail-body">
+                        ${this.renderMarkdown(article.content)}
+                    </div>
+                    <div class="article-detail-footer">
+                        王佳垚 — ${article.date}
+                    </div>
                 </div>
             `;
 
