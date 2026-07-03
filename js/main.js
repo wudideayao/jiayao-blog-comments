@@ -604,37 +604,26 @@
             this.rendered = false;
 
             this.photos = [
-                // 经典风景大片 - 已验证可用的 Unsplash 图片
-                { id: '1506905925346-21bda4d32df4', name: 'Dino Reichmuth', title: '雪山银河' },
-                { id: '1464822759023-fed622ff2c3b', name: 'Kyler Polen', title: '雪峰巍峨' },
-                { id: '1519681393784-d120267933ba', name: 'Silas Baisch', title: '星空雪山' },
-                { id: '1454496522488-7a8e488e8606', name: 'Annie Spratt', title: '山间晨曦' },
-                { id: '1501785888045-af8a1e1a0c3d', name: 'Luca Bravo', title: '山湖倒影' },
-                { id: '1447752875215-b2761acb3c5d', name: 'Luca Bravo', title: '林间小径' },
-                { id: '1433086966358-54859d0ed716', name: 'Adam Kool', title: '森林瀑布' },
-                { id: '1441974231531-c6227db76b6e', name: 'Marek Piwnicki', title: '森林深处' },
-                { id: '1507525428034-b723cf961d3e', name: 'Sean Oulashin', title: '海滨日落' },
-                { id: '1476514525535-07fb3b4ae5f1', name: 'Christian Joudrey', title: '湖光山色' },
-                { id: '1518837695492-b8e38fceb76d', name: 'Ricardo Gomez Angel', title: '海浪' },
-                { id: '1504384308090-c894fdcc538d', name: 'Ryan Schroeder', title: '黄昏城市' },
-                { id: '1469476497762-c4effa0f43f8', name: 'David Marcu', title: '瀑布水流' },
-                { id: '1455212694391-f2213464b2de', name: 'Ilona Szabo', title: '雨后森林' },
-                { id: '1504639725590-34d0984388bd', name: 'Parker Hilton', title: '星空' },
-                { id: '1497366216548-37526070297c', name: 'Jorgen Hendriksen', title: '晨雾森林' },
-                { id: '1510797215324-5b2e5c1c2b3d', name: 'Marek Piwnicki', title: '迷雾山林' },
-                { id: '1503794519827-1e64c3c72355', name: 'Manuel Torres', title: '沙漠' },
-                { id: '1518099077520-94d0bdc5d36b', name: 'Drew Graham', title: '秋叶之路' },
-                { id: '1457282361193-76b2e2a44c1a', name: 'Xiaolong Wong', title: '茶园晨曦' },
+                // 本地服务器图片 - 国内访问无忧
+                { file: '1506905925346-21bda4d32df4.jpg', name: 'Dino Reichmuth', title: '雪山银河' },
+                { file: '1464822759023-fed622ff2c3b.jpg', name: 'Kyler Polen', title: '雪峰巍峨' },
+                { file: '1519681393784-d120267933ba.jpg', name: 'Silas Baisch', title: '星空雪山' },
+                { file: '1454496522488-7a8e488e8606.jpg', name: 'Annie Spratt', title: '山间晨曦' },
+                { file: '1447752875215-b2761acb3c5d.jpg', name: 'Luca Bravo', title: '林间小径' },
+                { file: '1433086966358-54859d0ed716.jpg', name: 'Adam Kool', title: '森林瀑布' },
+                { file: '1441974231531-c6227db76b6e.jpg', name: 'Marek Piwnicki', title: '森林深处' },
+                { file: '1507525428034-b723cf961d3e.jpg', name: 'Sean Oulashin', title: '海滨日落' },
+                { file: '1476514525535-07fb3b4ae5f1.jpg', name: 'Christian Joudrey', title: '湖光山色' },
+                { file: '1504384308090-c894fdcc538d.jpg', name: 'Ryan Schroeder', title: '黄昏城市' },
+                { file: '1504639725590-34d0984388bd.jpg', name: 'Parker Hilton', title: '星空' },
+                { file: '1497366216548-37526070297c.jpg', name: 'Jorgen Hendriksen', title: '晨雾森林' },
             ];
 
             this.bindEvents();
         }
 
         prefetchImages() {
-            this.photos.forEach(photo => {
-                const img = new Image();
-                img.src = `https://images.unsplash.com/photo-${photo.id}?auto=format&fit=crop&w=800&q=80`;
-            });
+            // 本地图片无需预加载
         }
 
         bindEvents() {
@@ -684,7 +673,7 @@
                 card.className = 'beauty-card';
                 card.style.animationDelay = `${(index % 12) * 0.05}s`;
 
-                const imgUrl = `https://images.unsplash.com/photo-${photo.id}?auto=format&fit=crop&w=800&q=80`;
+                const imgUrl = `/images/scenery/${photo.file}`;
                 const img = lazyLoader.createImg(imgUrl, photo.title);
 
                 const info = document.createElement('div');
