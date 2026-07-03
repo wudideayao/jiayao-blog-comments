@@ -209,10 +209,10 @@
             // 使用 Giscus 的 data-term 传递文章 ID
             const script = document.createElement('script');
             script.src = 'https://giscus.app/client.js';
-            script.setAttribute('data-repo', '你的GitHub用户名/你的仓库名');
-            script.setAttribute('data-repo-id', '你的仓库ID');
+            script.setAttribute('data-repo', 'wudideayao/jiayao-blog-comments');
+            script.setAttribute('data-repo-id', 'R_kgDONn-NOA');
             script.setAttribute('data-category', 'Announcements');
-            script.setAttribute('data-category-id', '你的分类ID');
+            script.setAttribute('data-category-id', '请先在仓库启用 Discussions，然后访问 https://giscus.app 获取 category-id');
             script.setAttribute('data-mapping', 'specific');
             script.setAttribute('data-term', article.id);
             script.setAttribute('data-strict', '0');
