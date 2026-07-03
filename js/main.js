@@ -604,38 +604,25 @@
             this.rendered = false;
 
             this.photos = [
-                // 雪山与山脉
-                { id: '1464822759023-fed622ff2c3b', name: 'Kyler Polen', title: '雪峰巍峨' },
+                // 经典风景大片 - 已验证可用的 Unsplash 图片
                 { id: '1506905925346-21bda4d32df4', name: 'Dino Reichmuth', title: '雪山银河' },
-                { id: '1470071459604-3b8ec3ff75c5', name: 'Fabrizio Frigeni', title: '雪山倒影' },
+                { id: '1464822759023-fed622ff2c3b', name: 'Kyler Polen', title: '雪峰巍峨' },
                 { id: '1519681393784-d120267933ba', name: 'Silas Baisch', title: '星空雪山' },
                 { id: '1454496522488-7a8e488e8606', name: 'Annie Spratt', title: '山间晨曦' },
-                // 森林与树木
-                { id: '1447752875215-b2761acb3c5d', name: 'Luca Bravo', title: '林间小径' },
-                { id: '1518173946687-927571e36d8e', name: 'Matt Palmer', title: '林中光影' },
                 { id: '1501785888045-af8a1e1a0c3d', name: 'Luca Bravo', title: '山湖倒影' },
+                { id: '1447752875215-b2761acb3c5d', name: 'Luca Bravo', title: '林间小径' },
                 { id: '1433086966358-54859d0ed716', name: 'Adam Kool', title: '森林瀑布' },
                 { id: '1441974231531-c6227db76b6e', name: 'Marek Piwnicki', title: '森林深处' },
-                // 海洋与湖泊
                 { id: '1507525428034-b723cf961d3e', name: 'Sean Oulashin', title: '海滨日落' },
-                { id: '1439405326854-72e1773db4b0', name: 'Gui Avelar', title: '海浪拍岸' },
                 { id: '1476514525535-07fb3b4ae5f1', name: 'Christian Joudrey', title: '湖光山色' },
-                { id: '1518837695492-b8e38fceb76d', name: 'Ricardo Gomez Angel', title: '蓝色海浪' },
-                { id: '1505221974363-4b48d9f1b8e0', name: 'Dawid Zawila', title: '海岸线' },
-                // 日出日落
-                { id: '1488867530091-7e6e50f78d44', name: 'Yosh Ginsu', title: '金色日落' },
-                { id: '1493244132418-3e5c1e8cb8e0', name: 'Nils Nedel', title: '日出云海' },
-                { id: '1503149774123-07520327c5b0', name: 'Tomas Robertson', title: '山顶日出' },
+                { id: '1518837695492-b8e38fceb76d', name: 'Ricardo Gomez Angel', title: '海浪' },
                 { id: '1504384308090-c894fdcc538d', name: 'Ryan Schroeder', title: '黄昏城市' },
-                // 自然细节
-                { id: '1470071459604-3b8ec3ff75c5', name: 'Greg Rakozy', title: '极光之夜' },
                 { id: '1469476497762-c4effa0f43f8', name: 'David Marcu', title: '瀑布水流' },
-                { id: '1455212694391-f2213464b2de', name: 'ilona szabo', title: '雨后森林' },
-                { id: '1524231757912-21f4fe3a7200', name: 'Jungsang Gong', title: '云雾山谷' },
+                { id: '1455212694391-f2213464b2de', name: 'Ilona Szabo', title: '雨后森林' },
                 { id: '1504639725590-34d0984388bd', name: 'Parker Hilton', title: '星空' },
                 { id: '1497366216548-37526070297c', name: 'Jorgen Hendriksen', title: '晨雾森林' },
                 { id: '1510797215324-5b2e5c1c2b3d', name: 'Marek Piwnicki', title: '迷雾山林' },
-                { id: '1503794519827-1e64c3c72355', name: 'Manuel Torres', title: '沙漠星空' },
+                { id: '1503794519827-1e64c3c72355', name: 'Manuel Torres', title: '沙漠' },
                 { id: '1518099077520-94d0bdc5d36b', name: 'Drew Graham', title: '秋叶之路' },
                 { id: '1457282361193-76b2e2a44c1a', name: 'Xiaolong Wong', title: '茶园晨曦' },
             ];
