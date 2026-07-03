@@ -40,15 +40,18 @@
     /* ============================================
        文章数据加载
        ============================================ */
-    async function loadArticles() {
-        try {
-            const res = await fetch('/blog/data/articles.json');
-            if (!res.ok) throw new Error('加载失败');
-            return await res.json();
-        } catch (err) {
-            console.error('文章加载失败:', err);
-            return [];
+    function loadArticles() {
+        if (window.__BLOG_ARTICLES__) {
+            return window.__BLOG_ARTICLES__;
         }
+        // 降级：从服务端 fetch
+        return fetch('/blog/data/articles.json').then(function(r) {
+            if (!r.ok) throw new Error('加载失败');
+            return r.json();
+        }).catch(function() {
+            console.error('文章加载失败');
+            return [];
+        });
     }
 
     /* ============================================
