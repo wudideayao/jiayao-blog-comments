@@ -943,6 +943,83 @@
     /* ============================================
        主题切换（日/夜模式）
        ============================================ */
+    /* ============================================
+       星空背景（暗色模式）
+       ============================================ */
+    class Starfield {
+        constructor() {
+            this.canvas = document.getElementById('starfield');
+            if (!this.canvas) return;
+            this.ctx = this.canvas.getContext('2d');
+            this.stars = [];
+            this.animId = null;
+            this.resize();
+            this.generateStars(500);
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) this.start();
+            window.addEventListener('resize', () => { this.resize(); this.generateStars(500); });
+            const obs = new MutationObserver(() => {
+                const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+                if (dark) this.start();
+                else this.stop();
+            });
+            obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+        }
+
+        resize() {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            this.canvas.width = w;
+            this.canvas.height = h;
+            this.canvas.style.width = w + 'px';
+            this.canvas.style.height = h + 'px';
+        }
+
+        generateStars(count) {
+            this.stars = [];
+            for (let i = 0; i < count; i++) {
+                this.stars.push({
+                    x: Math.random() * this.canvas.width,
+                    y: Math.random() * this.canvas.height,
+                    r: Math.random() * 2 + 0.5,
+                    alpha: Math.random() * 0.7 + 0.3,
+                    speed: Math.random() * 0.01 + 0.003,
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        draw(time) {
+            const ctx = this.ctx;
+            ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            for (const s of this.stars) {
+                const twinkle = Math.sin(time * s.speed + s.phase) * 0.4 + 0.6;
+                const a = s.alpha * twinkle;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${a})`;
+                ctx.fill();
+            }
+        }
+
+        start() {
+            if (this.animId) return;
+            const loop = (t) => {
+                this.draw(t);
+                this.animId = requestAnimationFrame(loop);
+            };
+            this.animId = requestAnimationFrame(loop);
+        }
+
+        stop() {
+            if (this.animId) {
+                cancelAnimationFrame(this.animId);
+                this.animId = null;
+            }
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+    }
+
     class ThemeManager {
         constructor() {
             this.btn = document.getElementById('themeToggle');
@@ -963,7 +1040,6 @@
 
         toggle() {
             const newTheme = this.theme === 'dark' ? 'light' : 'dark';
-            // 添加短暂过渡类
             document.documentElement.classList.add('theme-transitioning');
             this.applyTheme(newTheme);
             setTimeout(() => {
@@ -975,7 +1051,6 @@
             if (this.btn) {
                 this.btn.addEventListener('click', () => this.toggle());
             }
-            // 监听系统主题变化
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
                 if (!localStorage.getItem('blog-theme')) {
                     this.applyTheme(e.matches ? 'dark' : 'light');
@@ -1134,6 +1209,9 @@
 
         // 主题切换
         new ThemeManager();
+
+        // 星空背景
+        new Starfield();
 
         // 回到顶部
         new BackToTop();
