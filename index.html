@@ -37,12 +37,15 @@
         }
     }
     </script>
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="http://121.43.35.59/">
+    
+    <!-- Sitemap -->
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 
-    <!-- Google Fonts (优化加载) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- 本地字体（替代 Google Fonts，国内访问更快） -->
+    <link rel="stylesheet" href="/fonts/fonts.css">
     
     <!-- Font Awesome (本地) -->
     <link rel="stylesheet" href="/css/fontawesome/all.min.css">
@@ -376,5 +379,15 @@
 
     <!-- Scripts -->
     <script src="js/main.js"></script>
+    <!-- 简单访问统计 -->
+    <script>
+    (function(){
+        var img = document.createElement('img');
+        img.src = '/blog/api/health?ref=' + encodeURIComponent(window.location.pathname) + '&r=' + Math.random();
+        img.style.display = 'none';
+        document.body.appendChild(img);
+        setTimeout(function(){ img.remove(); }, 3000);
+    })();
+    </script>
 </body>
 </html>
