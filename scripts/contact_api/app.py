@@ -55,10 +55,10 @@ def close_db(exception):
         db.close()
 
 # ========== 邮件发送 ==========
-def send_notification(name, email, content):
+def send_notification(name, email_addr, content):
     """通过 Gmail SMTP 发送新留言通知"""
     if not SMTP_USER or not SMTP_PASS:
-        print("[邮件] 未配置 Gmail 账号，跳过邮件发送")
+        app.logger.warning("[邮件] 未配置 Gmail 账号，跳过邮件发送")
         return False
 
     try:
@@ -71,7 +71,7 @@ def send_notification(name, email, content):
 
         text = f"""博客收到了新的留言！
 
-来自：{name} ({email})
+来自：{name} ({email_addr})
 时间：{now}
 内容：
 {content}
@@ -89,7 +89,7 @@ def send_notification(name, email, content):
 <p style="color: #8a7d6b; margin: 0 0 24px; font-size: 14px;">{now}</p>
 
 <div style="background: #f9f6f0; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
-<p style="margin: 0 0 4px; color: #3d3229;"><strong>{name}</strong> <span style="color: #8a7d6b; font-size: 13px;">&lt;{email}&gt;</span></p>
+<p style="margin: 0 0 4px; color: #3d3229;"><strong>{name}</strong> <span style="color: #8a7d6b; font-size: 13px;">&lt;{email_addr}&gt;</span></p>
 <p style="margin: 0; color: #5a4f42; line-height: 1.6; white-space: pre-wrap;">{content}</p>
 </div>
 
@@ -109,10 +109,10 @@ def send_notification(name, email, content):
         server.sendmail(SMTP_USER, [NOTIFY_EMAIL], msg.as_string())
         server.quit()
 
-        print(f"[邮件] 已发送通知给 {NOTIFY_EMAIL}")
+        app.logger.info(f"[邮件] 已发送通知给 {NOTIFY_EMAIL}")
         return True
     except Exception as e:
-        print(f"[邮件] 发送失败: {e}")
+        app.logger.error(f"[邮件] 发送失败: {e}")
         return False
 
 # ========== API ==========
