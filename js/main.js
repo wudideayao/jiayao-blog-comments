@@ -125,11 +125,12 @@
     }
 
     /* ============================================
-       表单处理
+       表单处理 & 留言板
        ============================================ */
     class ContactForm {
         constructor() {
             this.form = document.getElementById('contactForm');
+            this.apiUrl = '/blog/api/message';
             if (this.form) {
                 this.form.addEventListener('submit', (e) => this.onSubmit(e));
             }
@@ -153,22 +154,27 @@
             btn.disabled = true;
 
             try {
-                const res = await fetch(this.form.action, {
+                const res = await fetch(this.apiUrl, {
                     method: 'POST',
-                    body: new FormData(this.form),
-                    headers: { 'Accept': 'application/json' }
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ name, email, message })
                 });
 
-                if (res.ok) {
+                const data = await res.json();
+
+                if (res.ok && data.ok) {
                     this.showToast('感谢你的留言！我会尽快回复 🙌');
                     this.form.reset();
+                    // 刷新留言板
+                    if (window.messageBoard) {
+                        window.messageBoard.loadMessages();
+                    }
                 } else {
-                    const data = await res.json();
                     throw new Error(data.error || '发送失败');
                 }
             } catch (err) {
                 this.showToast('发送失败了，请稍后再试 😅');
-                console.error('Formspree 提交失败:', err);
+                console.error('留言提交失败:', err);
             } finally {
                 btn.innerHTML = origHTML;
                 btn.disabled = false;
@@ -194,6 +200,66 @@
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 500);
             }, 3000);
+        }
+    }
+
+    /**
+     * 留言板 - 加载并展示已公开的留言
+     */
+    class MessageBoard {
+        constructor() {
+            this.container = document.getElementById('messageBoard');
+            this.list = document.getElementById('messageList');
+            this.apiUrl = '/blog/api/messages';
+            if (this.list) {
+                this.loadMessages();
+            }
+        }
+
+        async loadMessages() {
+            if (!this.list) return;
+            try {
+                const res = await fetch(this.apiUrl);
+                if (!res.ok) throw new Error('加载失败');
+                const messages = await res.json();
+                this.render(messages);
+            } catch (err) {
+                this.list.innerHTML = '<div class="message-empty">留言加载失败，请稍后再试</div>';
+                console.error('留言板加载失败:', err);
+            }
+        }
+
+        render(messages) {
+            if (!this.list) return;
+            if (!messages || messages.length === 0) {
+                this.list.innerHTML = '<div class="message-empty">还没有留言，快来写下第一条吧 ✍️</div>';
+                return;
+            }
+            this.list.innerHTML = messages.map(msg => `
+                <div class="message-item">
+                    <div class="message-header">
+                        <span class="message-author">${this.escapeHtml(msg.name)}</span>
+                        <span class="message-date">${this.formatDate(msg.created_at)}</span>
+                    </div>
+                    <div class="message-content">${this.escapeHtml(msg.content)}</div>
+                </div>
+            `).join('');
+        }
+
+        formatDate(dateStr) {
+            const d = new Date(dateStr + ' UTC+8');
+            const now = new Date();
+            const diff = now - d;
+            if (diff < 3600000) return '刚刚';
+            if (diff < 86400000) return Math.floor(diff / 3600000) + '小时前';
+            if (diff < 604800000) return Math.floor(diff / 86400000) + '天前';
+            return d.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' });
+        }
+
+        escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
         }
     }
 
@@ -1042,8 +1108,10 @@
         // 导航
         new Navigation();
 
-        // 表单
-        new ContactForm();
+        // 表单 & 留言板
+        const cf = new ContactForm();
+        const mb = new MessageBoard();
+        window.messageBoard = mb;
 
         // 平滑滚动
         new SmoothScroll();

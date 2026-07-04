@@ -958,6 +958,91 @@ a.contact-value:hover {
 }
 
 /* ============================================
+   留言板
+   ============================================ */
+.message-board {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-2xl);
+    border-top: 1px solid var(--color-border-hover);
+}
+
+.message-board-header {
+    margin-bottom: var(--space-lg);
+}
+
+.message-board-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.message-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.message-loading,
+.message-empty {
+    text-align: center;
+    padding: var(--space-2xl);
+    color: var(--color-text-tertiary);
+    font-size: 0.875rem;
+}
+
+.message-item {
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    transition: all var(--transition-base);
+    border: 1px solid var(--color-border-hover);
+}
+
+.message-item:hover {
+    border-color: var(--color-accent-1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-sm);
+}
+
+.message-author {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--color-accent-1);
+}
+
+.message-date {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+}
+
+.message-content {
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .message-item {
+    background: rgba(255,255,255,0.03);
+    border-color: rgba(255,255,255,0.08);
+}
+
+[data-theme="dark"] .message-item:hover {
+    border-color: var(--color-accent-1);
+}
+
+/* ============================================
+   Toast 通知
+   ============================================ */
    Footer
    ============================================ */
 .footer {

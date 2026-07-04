@@ -245,7 +245,7 @@
                     </div>
                 </div>
                 <div class="contact-form-wrapper animate-on-scroll">
-                    <form class="contact-form" id="contactForm" action="https://formspree.io/f/xrbbrbzy" method="POST">
+                    <form class="contact-form" id="contactForm">
                         <div class="form-group">
                             <input type="text" id="name" name="name" placeholder="你的名字" required>
                             <label for="name">名字</label>
@@ -263,6 +263,15 @@
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </form>
+                    <!-- 留言板 -->
+                    <div class="message-board" id="messageBoard">
+                        <div class="message-board-header">
+                            <h3 class="message-board-title">💬 留言板</h3>
+                        </div>
+                        <div class="message-list" id="messageList">
+                            <div class="message-loading">加载留言中...</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
