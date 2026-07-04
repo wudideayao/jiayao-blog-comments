@@ -134,39 +134,8 @@ button {
 }
 
 /* ============================================
-   Hero 区域星星（暗色模式显示）
-   ============================================ */
-#heroStarfield {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0;
-    transition: opacity 1.5s ease;
-}
-
-[data-theme="dark"] #heroStarfield {
-    opacity: 1;
-}
-
-/* ============================================
    Hero Section
    ============================================ */
-.hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-5xl) 0 var(--space-4xl);
-    text-align: center;
-    overflow: hidden;
-    background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-tertiary) 100%);
-}
-
 input, textarea {
     font-family: inherit;
     font-size: inherit;
@@ -296,12 +265,15 @@ input, textarea {
    Hero Section
    ============================================ */
 .hero {
+    position: relative;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: var(--space-5xl) 0 var(--space-4xl);
+    text-align: center;
     overflow: hidden;
-    background: var(--color-bg-primary);
+    background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-tertiary) 100%);
 }
 
 /* Decorative gradient orbs - Stripe style */
@@ -399,6 +371,7 @@ input, textarea {
 }
 
 .hero-title {
+    position: relative;
     font-family: var(--font-display);
     margin-bottom: var(--space-xl);
 }
@@ -419,6 +392,25 @@ input, textarea {
     line-height: 1.1;
     color: var(--color-text-primary);
     letter-spacing: -0.02em;
+    position: relative;
+    overflow: hidden;
+    min-height: 1.2em;
+}
+
+/* 名字粒子画布 — 覆盖在名字上方 */
+.name-particles-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+/* 亮色模式显示文本，暗色模式隐藏并用粒子代替 */
+[data-theme="dark"] .title-name {
+    color: transparent;
 }
 
 .hero-subtitle {

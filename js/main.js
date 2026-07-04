@@ -943,11 +943,6 @@
     /* ============================================
        主题切换（日/夜模式）
        ============================================ */
-    /* ============================================
-       粒子姓名效果（来自 GitHub imnaqihassan/Particles）
-       名字由星星粒子组成，鼠标散开/汇聚
-
-
     class ThemeManager {
         constructor() {
             this.btn = document.getElementById('themeToggle');
@@ -1102,6 +1097,225 @@
     }
 
     /* ============================================
+       名字粒子效果 — "王佳垚" 由星星粒子组成
+       鼠标划过时粒子散开，之后重新汇聚
+       ============================================ */
+    class ParticleName {
+        constructor(canvasId, text) {
+            this.canvas = document.getElementById(canvasId);
+            if (!this.canvas) return;
+            this.ctx = this.canvas.getContext('2d');
+            this.text = text || '王佳垚';
+            this.particles = [];
+            this.mouseX = -9999;
+            this.mouseY = -9999;
+            this.isHovering = false;
+            this._initialized = false;
+
+            // 分多次尝试初始化（等 DOM 布局 + 字体加载）
+            const tryInit = (delay) => setTimeout(() => {
+                if (!this._initialized) {
+                    try { this.init(); } catch (e) { console.warn('ParticleName init error:', e); }
+                }
+            }, delay);
+            tryInit(100);
+            tryInit(500);
+            tryInit(1500);
+            tryInit(3000);
+
+            // 等字体加载完后再次尝试
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(() => {
+                    if (!this._initialized) {
+                        try { this.init(); } catch (e) { console.warn('ParticleName font init error:', e); }
+                    }
+                });
+            }
+
+            this.bindEvents();
+            this.animate();
+
+            // 监听主题切换
+            const observer = new MutationObserver(() => {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                if (isDark && this.particles.length === 0) {
+                    // 切到暗色模式时如果还没初始化则初始化
+                    this.init();
+                }
+            });
+            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+        }
+
+        init() {
+            if (this._initialized || !this.canvas || !this.canvas.parentElement) return;
+
+            const parent = this.canvas.parentElement;
+            const rect = parent.getBoundingClientRect();
+            const style = window.getComputedStyle(parent);
+            const fontSize = parseFloat(style.fontSize);
+
+            if (rect.width < 10 || rect.height < 10 || !fontSize || fontSize < 10) {
+                return; // 等下次重试
+            }
+
+            this._initialized = true;
+            this.dpr = window.devicePixelRatio || 1;
+            const w = Math.max(rect.width, 10);
+            const h = Math.max(rect.height, 10);
+            // 先设 CSS 尺寸，再设画布分辨率
+            this.canvas.style.width = Math.ceil(w) + 'px';
+            this.canvas.style.height = Math.ceil(h) + 'px';
+            this.canvas.width = Math.ceil(w * this.dpr);
+            this.canvas.height = Math.ceil(h * this.dpr);
+
+            this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+
+            // 在离屏画布上绘制文字，采样像素
+            const offscreen = document.createElement('canvas');
+            offscreen.width = w;
+            offscreen.height = h;
+            const offCtx = offscreen.getContext('2d');
+
+            offCtx.textAlign = 'center';
+            offCtx.textBaseline = 'middle';
+            const fontFamily = style.fontFamily || "'Space Grotesk', 'Noto Sans SC', sans-serif";
+            const fontWeight = style.fontWeight || '800';
+            offCtx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
+            offCtx.fillStyle = '#fff';
+            offCtx.fillText(this.text, w / 2, h / 2);
+
+            // 采样像素
+            const imageData = offCtx.getImageData(0, 0, w, h);
+            const data = imageData.data;
+            const gap = 3;
+
+            this.particles = [];
+            for (let y = 0; y < h; y += gap) {
+                for (let x = 0; x < w; x += gap) {
+                    const i = (y * w + x) * 4;
+                    if (data[i + 3] > 128) {
+                        const offX = (Math.random() - 0.5) * 1.5;
+                        const offY = (Math.random() - 0.5) * 1.5;
+                        this.particles.push({
+                            originX: x + offX,
+                            originY: y + offY,
+                            x: x + offX,
+                            y: y + offY,
+                            size: Math.random() * 2.5 + 1,
+                            alpha: Math.random() * 0.5 + 0.5,
+                            phase: Math.random() * Math.PI * 2,
+                            speed: Math.random() * 0.005 + 0.003,
+                            vx: 0,
+                            vy: 0,
+                        });
+                    }
+                }
+            }
+        }
+
+        bindEvents() {
+            const handler = (e) => {
+                const rect = this.canvas.getBoundingClientRect();
+                this.mouseX = e.clientX - rect.left;
+                this.mouseY = e.clientY - rect.top;
+                this.isHovering = true;
+                this.scatterTimer = Date.now();
+            };
+
+            this.canvas.addEventListener('mousemove', handler);
+            this.canvas.addEventListener('mouseenter', handler);
+
+            this.canvas.addEventListener('mouseleave', () => {
+                this.isHovering = false;
+                this.mouseX = -9999;
+                this.mouseY = -9999;
+            });
+
+            window.addEventListener('resize', () => {
+                const parent = this.canvas.parentElement;
+                const parentStyle = window.getComputedStyle(parent);
+                const fontSize = parseFloat(parentStyle.fontSize);
+
+                // 只响应显著尺寸变化
+                const newWidth = parent.getBoundingClientRect().width;
+                if (Math.abs(newWidth - this.canvas.width / this.dpr) > 50) {
+                    this.canvas.width = 0;
+                    this.canvas.height = 0;
+                    this.particles = [];
+                    this.init();
+                }
+            });
+        }
+
+        animate() {
+            if (this.particles.length === 0) {
+                requestAnimationFrame(() => this.animate());
+                return;
+            }
+
+            this.ctx.clearRect(0, 0, this.canvas.width / this.dpr, this.canvas.height / this.dpr);
+
+            const w = this.canvas.width / this.dpr;
+            const h = this.canvas.height / this.dpr;
+            const time = Date.now() / 1000;
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+            // 根据主题选择粒子颜色
+            const color = isDark ? '255, 255, 255' : '30, 30, 40';
+            const glowColor = isDark ? '180, 210, 255' : '60, 60, 80';
+
+            for (const p of this.particles) {
+                // 鼠标距离
+                const dx = p.x - this.mouseX;
+                const dy = p.y - this.mouseY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                // 鼠标散射力
+                const scatterRadius = 80;
+                if (this.isHovering && dist < scatterRadius) {
+                    const force = (scatterRadius - dist) / scatterRadius;
+                    const angle = Math.atan2(dy, dx);
+                    p.vx += Math.cos(angle) * force * 2;
+                    p.vy += Math.sin(angle) * force * 2;
+                }
+
+                // 回复力 — 回到原始位置
+                const returnForce = 0.06;
+                p.vx += (p.originX - p.x) * returnForce;
+                p.vy += (p.originY - p.y) * returnForce;
+
+                // 阻尼
+                p.vx *= 0.92;
+                p.vy *= 0.92;
+
+                // 更新位置
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // 闪烁
+                const twinkle = Math.sin(time * p.speed * 15 + p.phase) * 0.2 + 0.8;
+                const alpha = p.alpha * twinkle;
+
+                // 绘制粒子
+                this.ctx.beginPath();
+                this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                this.ctx.fillStyle = `rgba(${color}, ${alpha})`;
+                this.ctx.fill();
+
+                // 发光（仅暗色模式有发光效果）
+                if (p.size > 1.5 && isDark) {
+                    this.ctx.beginPath();
+                    this.ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
+                    this.ctx.fillStyle = `rgba(${glowColor}, ${alpha * 0.12})`;
+                    this.ctx.fill();
+                }
+            }
+
+            requestAnimationFrame(() => this.animate());
+        }
+    }
+
+    /* ============================================
        初始化
        ============================================ */
     let _musicWall, _gameWall, _beautyWall, _runGear;
@@ -1137,6 +1351,16 @@
 
         // 主题切换
         new ThemeManager();
+
+        // 星光粒子
+        const particleName = new ParticleName('nameParticles', '王佳垚');
+
+        // 页面完全加载后再试一次（确保字体等资源就绪）
+        window.addEventListener('load', () => {
+            if (!particleName._initialized) {
+                try { particleName.init(); } catch (e) { console.warn('ParticleName load init error:', e); }
+            }
+        });
 
         // 回到顶部
         new BackToTop();
