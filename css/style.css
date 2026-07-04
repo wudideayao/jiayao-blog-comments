@@ -167,34 +167,6 @@ button {
     background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-tertiary) 100%);
 }
 
-/* 粒子姓名画布 - 覆盖在名字上，暗色模式显示 */
-.hero-title {
-    position: relative;
-    display: inline-block;
-}
-
-.particle-canvas {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    pointer-events: auto !important;
-    z-index: 2 !important;
-    opacity: 0;
-    transition: opacity 0.8s ease;
-}
-
-[data-theme="dark"] .particle-canvas {
-    opacity: 1;
-}
-
-/* 暗色模式隐藏文字，只显示粒子 */
-[data-theme="dark"] .title-name {
-    color: transparent !important;
-    -webkit-text-fill-color: transparent;
-}
-
 input, textarea {
     font-family: inherit;
     font-size: inherit;
