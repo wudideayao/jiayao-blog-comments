@@ -235,15 +235,28 @@
                 this.list.innerHTML = '<div class="message-empty">还没有留言，快来写下第一条吧 ✍️</div>';
                 return;
             }
-            this.list.innerHTML = messages.map(msg => `
-                <div class="message-item">
-                    <div class="message-header">
-                        <span class="message-author">${this.escapeHtml(msg.name)}</span>
-                        <span class="message-date">${this.formatDate(msg.created_at)}</span>
+            this.list.innerHTML = messages.map(msg => {
+                const replies = (msg.replies || []).map(r => `
+                    <div class="message-reply">
+                        <div class="reply-header">
+                            <span class="reply-author">${this.escapeHtml(r.name)}</span>
+                            <span class="reply-badge">博主</span>
+                            <span class="message-date">${this.formatDate(r.created_at)}</span>
+                        </div>
+                        <div class="reply-content">${this.escapeHtml(r.content)}</div>
                     </div>
-                    <div class="message-content">${this.escapeHtml(msg.content)}</div>
-                </div>
-            `).join('');
+                `).join('');
+                return `
+                    <div class="message-item">
+                        <div class="message-header">
+                            <span class="message-author">${this.escapeHtml(msg.name)}</span>
+                            <span class="message-date">${this.formatDate(msg.created_at)}</span>
+                        </div>
+                        <div class="message-content">${this.escapeHtml(msg.content)}</div>
+                        ${replies ? '<div class="message-replies">' + replies + '</div>' : ''}
+                    </div>
+                `;
+            }).join('');
         }
 
         formatDate(dateStr) {

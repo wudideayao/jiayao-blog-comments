@@ -1040,6 +1040,60 @@ a.contact-value:hover {
     border-color: var(--color-accent-1);
 }
 
+/* 博主回复 */
+.message-replies {
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px dashed var(--color-border-hover);
+}
+
+.message-reply {
+    background: rgba(37, 99, 235, 0.04);
+    border-radius: var(--radius-sm);
+    padding: var(--space-md);
+    margin-top: var(--space-sm);
+    border-left: 3px solid var(--color-accent-1);
+}
+
+.message-reply:first-child {
+    margin-top: 0;
+}
+
+.reply-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xs);
+}
+
+.reply-author {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--color-accent-1);
+}
+
+.reply-badge {
+    font-size: 0.625rem;
+    background: var(--color-accent-1);
+    color: #fff;
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.reply-content {
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+[data-theme="dark"] .message-reply {
+    background: rgba(37, 99, 235, 0.08);
+}
+
 /* ============================================
    Toast 通知
    ============================================ */
