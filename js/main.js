@@ -944,20 +944,21 @@
        主题切换（日/夜模式）
        ============================================ */
     /* ============================================
-       星空背景（暗色模式）
+       Hero 星空背景（暗色模式）
        ============================================ */
-    class Starfield {
+    class HeroStarfield {
         constructor() {
-            this.canvas = document.getElementById('starfield');
+            this.canvas = document.getElementById('heroStarfield');
             if (!this.canvas) return;
             this.ctx = this.canvas.getContext('2d');
             this.stars = [];
             this.animId = null;
+            this.parent = this.canvas.parentElement;
             this.resize();
-            this.generateStars(500);
+            this.generateStars(200);
             const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             if (isDark) this.start();
-            window.addEventListener('resize', () => { this.resize(); this.generateStars(500); });
+            window.addEventListener('resize', () => { this.resize(); this.generateStars(200); });
             const obs = new MutationObserver(() => {
                 const dark = document.documentElement.getAttribute('data-theme') === 'dark';
                 if (dark) this.start();
@@ -967,12 +968,11 @@
         }
 
         resize() {
-            const w = window.innerWidth;
-            const h = window.innerHeight;
-            this.canvas.width = w;
-            this.canvas.height = h;
-            this.canvas.style.width = w + 'px';
-            this.canvas.style.height = h + 'px';
+            const rect = this.parent.getBoundingClientRect();
+            this.canvas.width = rect.width;
+            this.canvas.height = rect.height;
+            this.canvas.style.width = rect.width + 'px';
+            this.canvas.style.height = rect.height + 'px';
         }
 
         generateStars(count) {
@@ -1210,8 +1210,8 @@
         // 主题切换
         new ThemeManager();
 
-        // 星空背景
-        new Starfield();
+        // Hero 星空
+        new HeroStarfield();
 
         // 回到顶部
         new BackToTop();
