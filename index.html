@@ -57,7 +57,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=5">
+    <link rel="stylesheet" href="css/style.css?v=8">
 </head>
 <body>
     <!-- 导航栏 -->
@@ -84,7 +84,6 @@
 
     <!-- Hero Section -->
     <section class="hero" id="hero">
-        <canvas id="heroStarfield"></canvas>
         <div class="hero-decoration">
             <div class="hero-orb hero-orb-1"></div>
             <div class="hero-orb hero-orb-2"></div>
@@ -97,7 +96,8 @@
             </div>
             <h1 class="hero-title animate-in">
                 <span class="title-line">你好，我是</span>
-                <span class="title-name">王佳垚</span>
+                <span class="title-name" id="titleName">王佳垚</span>
+                <canvas id="particleCanvas" class="particle-canvas"></canvas>
             </h1>
             <div class="hero-subtitle animate-in">
                 <span class="typing-text" id="typingText"></span>
@@ -379,7 +379,7 @@
     </button>
 
     <!-- Scripts -->
-    <script src="js/main.js?v=2"></script>
+    <script src="js/main.js?v=3"></script>
     <!-- 简单访问统计 -->
     <script>
     (function(){

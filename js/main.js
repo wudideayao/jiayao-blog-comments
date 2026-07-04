@@ -944,78 +944,145 @@
        主题切换（日/夜模式）
        ============================================ */
     /* ============================================
-       Hero 星空背景（暗色模式）
+       粒子姓名效果（来自 GitHub imnaqihassan/Particles）
+       名字由星星粒子组成，鼠标散开/汇聚
        ============================================ */
-    class HeroStarfield {
+    class ParticleName {
         constructor() {
-            this.canvas = document.getElementById('heroStarfield');
-            if (!this.canvas) return;
+            this.canvas = document.getElementById('particleCanvas');
+            this.nameEl = document.getElementById('titleName');
+            if (!this.canvas || !this.nameEl) return;
             this.ctx = this.canvas.getContext('2d');
-            this.stars = [];
-            this.animId = null;
-            this.parent = this.canvas.parentElement;
-            this.resize();
-            this.generateStars(200);
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            if (isDark) this.start();
-            window.addEventListener('resize', () => { this.resize(); this.generateStars(200); });
+            this.particles = [];
+            this.text = '王佳垚';
+            this.mouseX = -9999;
+            this.mouseY = -9999;
+            this.init();
+        }
+
+        init() {
+            const ready = () => {
+                const nr = this.nameEl.getBoundingClientRect();
+                if (nr.width < 5) { setTimeout(ready, 300); return; }
+                this.canvas.width = Math.ceil(nr.width);
+                this.canvas.height = Math.ceil(nr.height);
+                this.generateParticles();
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                if (isDark) this.start();
+                this.bindEvents();
+            };
+            setTimeout(ready, 400);
+        }
+
+        bindEvents() {
+            this.canvas.addEventListener('mousemove', (e) => {
+                const rect = this.canvas.getBoundingClientRect();
+                this.mouseX = e.clientX - rect.left;
+                this.mouseY = e.clientY - rect.top;
+            });
+            this.canvas.addEventListener('mouseleave', () => {
+                this.mouseX = -9999;
+                this.mouseY = -9999;
+            });
+            window.addEventListener('resize', () => {
+                const nr = this.nameEl.getBoundingClientRect();
+                if (nr.width > 5) {
+                    this.canvas.width = Math.ceil(nr.width);
+                    this.canvas.height = Math.ceil(nr.height);
+                }
+            });
             const obs = new MutationObserver(() => {
                 const dark = document.documentElement.getAttribute('data-theme') === 'dark';
-                if (dark) this.start();
-                else this.stop();
+                if (dark) this.start(); else this.stop();
             });
             obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
         }
 
-        resize() {
-            const rect = this.parent.getBoundingClientRect();
-            this.canvas.width = rect.width;
-            this.canvas.height = rect.height;
-            this.canvas.style.width = rect.width + 'px';
-            this.canvas.style.height = rect.height + 'px';
-        }
-
-        generateStars(count) {
-            this.stars = [];
-            for (let i = 0; i < count; i++) {
-                this.stars.push({
-                    x: Math.random() * this.canvas.width,
-                    y: Math.random() * this.canvas.height,
-                    r: Math.random() * 2 + 0.5,
-                    alpha: Math.random() * 0.7 + 0.3,
-                    speed: Math.random() * 0.01 + 0.003,
-                    phase: Math.random() * Math.PI * 2
-                });
-            }
-        }
-
-        draw(time) {
+        generateParticles() {
             const ctx = this.ctx;
-            ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            for (const s of this.stars) {
-                const twinkle = Math.sin(time * s.speed + s.phase) * 0.4 + 0.6;
-                const a = s.alpha * twinkle;
+            const w = this.canvas.width;
+            const h = this.canvas.height;
+            ctx.clearRect(0, 0, w, h);
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold ' + Math.min(w, h * 2) + 'px "Noto Serif SC",serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(this.text, w / 2, h / 2);
+
+            const imgData = ctx.getImageData(0, 0, w, h);
+            this.particles = [];
+            const gap = 3;
+            for (let y = 0; y < h; y += gap) {
+                for (let x = 0; x < w; x += gap) {
+                    const idx = (y * w + x) * 4;
+                    if (imgData.data[idx + 3] > 128) {
+                        this.particles.push({
+                            x: x, y: y,
+                            origX: x, origY: y,
+                            size: Math.random() * 2.5 + 1,
+                            vx: 0, vy: 0
+                        });
+                    }
+                }
+            }
+            ctx.clearRect(0, 0, w, h);
+        }
+
+        draw() {
+            const ctx = this.ctx;
+            const w = this.canvas.width;
+            const h = this.canvas.height;
+            ctx.clearRect(0, 0, w, h);
+
+            const cx = w / 2, cy = h / 2;
+
+            for (const p of this.particles) {
+                const dx = p.origX - this.mouseX;
+                const dy = p.origY - this.mouseY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const scatterDist = 80;
+
+                let tx = p.origX, ty = p.origY;
+
+                if (dist < scatterDist) {
+                    const angle = Math.atan2(dy, dx);
+                    const force = (scatterDist - dist) / scatterDist;
+                    const push = 80 * force;
+                    tx = p.origX + Math.cos(angle) * push + (Math.random() - 0.5) * 20;
+                    ty = p.origY + Math.sin(angle) * push + (Math.random() - 0.5) * 20;
+                }
+
+                p.vx += (tx - p.x) * 0.08;
+                p.vy += (ty - p.y) * 0.08;
+                p.vx *= 0.82;
+                p.vy *= 0.82;
+                p.x += p.vx;
+                p.y += p.vy;
+
+                const twinkle = Math.sin(Date.now() * 0.004 + p.origX * 0.1) * 0.3 + 0.7;
+                const alpha = twinkle * (dist < scatterDist ? 0.8 : 1);
+
                 ctx.beginPath();
-                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${a})`;
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+                ctx.fill();
+
+                // 小光晕
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255,255,255,${alpha * 0.12})`;
                 ctx.fill();
             }
         }
 
         start() {
             if (this.animId) return;
-            const loop = (t) => {
-                this.draw(t);
-                this.animId = requestAnimationFrame(loop);
-            };
+            const loop = () => { this.draw(); this.animId = requestAnimationFrame(loop); };
             this.animId = requestAnimationFrame(loop);
         }
 
         stop() {
-            if (this.animId) {
-                cancelAnimationFrame(this.animId);
-                this.animId = null;
-            }
+            if (this.animId) { cancelAnimationFrame(this.animId); this.animId = null; }
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         }
     }
@@ -1210,8 +1277,8 @@
         // 主题切换
         new ThemeManager();
 
-        // Hero 星空
-        new HeroStarfield();
+        // 粒子姓名（暗色模式交互）
+        new ParticleName();
 
         // 回到顶部
         new BackToTop();
